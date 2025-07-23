@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-python-app
+  labels:
+    app: sample-python-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sample-python-app
+  template:
+    metadata:
+      labels:
+        app: sample-python-app
+    spec:
+      containers:
+      - name: sample-python-app
+        image: rayeez/my-python-image:v1
+        env:
+         - name: DB_PORT
+           valueFrom:
+            configMapKeyRef:
+             name: test-cm
+             key: db-port
+        ports:
+        - containerPort: 8000
+
